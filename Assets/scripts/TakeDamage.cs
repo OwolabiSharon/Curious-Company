@@ -34,7 +34,7 @@ public class TakeDamage : MonoBehaviour
             canTakeDamage = false;
             Invoke("SetBool", iFrameDur);
             if (rb != null && !rb.isKinematic) rb.AddForce(other.transform.forward * attackKnockBack, ForceMode.Impulse);
-            anim.Play("React");
+            anim.CrossFadeInFixedTime("React", .08f);
             if (hp) hp.fillAmount = health / maxHealth;
         }
     }
