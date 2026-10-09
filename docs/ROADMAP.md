@@ -2,6 +2,10 @@
 
 Unfinished ideas already present in the code, and known issues to fix before expanding the game. These are interpretations of existing code, not confirmed design requirements. See [ARCHITECTURE.md](ARCHITECTURE.md) for how each system works today.
 
+## Campaign expansion status
+
+See [CAMPAIGN.md](CAMPAIGN.md) and [CAMPAIGN_VALIDATION.md](CAMPAIGN_VALIDATION.md). The expansion implements campaign progression, difficulty, randomized deployments, one-time extraction, guarded outcomes, finite hearing, view-angle use, camera initialization, event cleanup, Rigidbody movement, and swept shots. The original issue list below is retained as a prototype baseline; those implemented items now need regression and balance testing rather than first implementation. Infection, gate release, panic, alternate objectives, save/resume, and connected building storeys remain unimplemented.
+
 ## Dormant features
 
 The strongest connected unfinished concept is an infected escort opening a cage and causing a rescue group to scatter.

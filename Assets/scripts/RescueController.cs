@@ -28,6 +28,7 @@ public class RescueController : MonoBehaviour
     CapsuleCollider cc;
     Rigidbody rb;
     public bool isDead = false;
+    public bool IsRescued { get; private set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,16 +38,24 @@ public class RescueController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
         healthUI.SetActive(isFollowing);
+        RandomVals();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDead) return;
+        if (isDead || IsRescued) return;
+        if (nma.isOnNavMesh) nma.isStopped = !gm.isPlaying;
+        if (!gm.isPlaying)
+        {
+            anim.SetBool("isMoving", false);
+            return;
+        }
         if (damage.health < 1)
         {
             healthUI.SetActive(false);
             isDead = true;
+            if (nma.isOnNavMesh) nma.isStopped = true;
             anim.Play("Death");
             gm.GameOver();
             cc.enabled = false;
@@ -90,15 +99,24 @@ public class RescueController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Safe"))
+        if (other.CompareTag("Safe") && gm.isPlaying && !IsRescued && !isDead && isFollowing)
         {
+            IsRescued = true;
+            isFollowing = false;
+            if (nma.isOnNavMesh) nma.ResetPath();
+            anim.SetBool("isMoving", false);
+            anim.SetBool("isFollowing", false);
+            healthUI.SetActive(false);
+            damage.enabled = false;
+            cc.enabled = false;
+            if (rb) rb.isKinematic = true;
+            gameObject.tag = "Untagged";
             gm.rescued += 1;
         }
     }
 
     void Follow()
     {
-        RandomVals();
         if (Vector3.Distance(player.transform.position, transform.position) < maxRange) return;
         destination = player.transform.position - (player.transform.forward * backwardDistance) + (player.transform.right * sidewaysDirection * backwardDistance);
         // Vector3 destination = new Vector3(player.transform.x - "a little to the side", 0, player.transform.z - "how far back");
@@ -112,7 +130,7 @@ public class RescueController : MonoBehaviour
 
     void RandomVals()
     {
-        sidewaysDirection = Random.Range(-1, 1);
+        sidewaysDirection = Random.Range(-1, 2);
         backwardDistance = Random.Range(minRange, maxRange);
     }
 

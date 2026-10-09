@@ -28,8 +28,7 @@ public class CharacterController : MonoBehaviour
     {
         InputReader = GameObject.Find("GameManager").GetComponent<InputReader>();
         rb = GetComponent<Rigidbody>();
-        InputReader.AttackPressed += Shoot;
-        InputReader.JumpPressed += Dash;
+        SubscribeInput();
         audioSource = GetComponent<AudioSource>();
         cc = GetComponent<CapsuleCollider>();
 
@@ -42,6 +41,9 @@ public class CharacterController : MonoBehaviour
         if (!gm.isPlaying)
         {
             StopFootsteps();
+            anim.SetFloat("hor", 0);
+            anim.SetFloat("vert", 0);
+            if (rb != null) rb.linearVelocity = Vector3.zero;
             return;
         }
         anim.SetBool("isPlaying", true);
@@ -68,7 +70,7 @@ public class CharacterController : MonoBehaviour
     {
         Vector2 move = InputReader.Move;
         Vector3 moveDir = new Vector3(move.x, 0, move.y);
-        transform.Translate(moveDir * Time.deltaTime * moveSpeed, Space.World);
+        moveDir = Vector3.ClampMagnitude(moveDir, 1f);
         Vector3 localMove = transform.InverseTransformDirection(moveDir);
 
         anim.SetFloat("hor", localMove.x);
@@ -84,15 +86,42 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (rb == null || gm == null || !gm.isPlaying || isDead || Time.time < dashUntil) return;
+        Vector2 input = Vector2.ClampMagnitude(InputReader.Move, 1f);
+        Vector3 target = new Vector3(input.x * moveSpeed, rb.linearVelocity.y, input.y * moveSpeed);
+        rb.linearVelocity = Vector3.MoveTowards(rb.linearVelocity, target, 35f * Time.fixedDeltaTime);
+    }
+
     void StopFootsteps()
     {
         if (footstepAudioSource != null && footstepAudioSource.isPlaying)
             footstepAudioSource.Stop();
     }
 
+    bool inputSubscribed;
+
+    void SubscribeInput()
+    {
+        if (InputReader == null || inputSubscribed) return;
+        InputReader.AttackPressed += Shoot;
+        InputReader.JumpPressed += Dash;
+        inputSubscribed = true;
+    }
+
+    void OnEnable()
+    {
+        SubscribeInput();
+    }
+
     void OnDisable()
     {
         StopFootsteps();
+        if (InputReader == null || !inputSubscribed) return;
+        InputReader.AttackPressed -= Shoot;
+        InputReader.JumpPressed -= Dash;
+        inputSubscribed = false;
     }
 
     void Shoot()
@@ -110,21 +139,25 @@ public class CharacterController : MonoBehaviour
         part.Play();
     }
 
+    float nextDash;
+    float dashUntil;
+
     void Dash()
     {
+        if (gm == null || !gm.isPlaying || isDead || damage.health < 1 || rb == null || Time.time < nextDash) return;
+        nextDash = Time.time + 1.2f;
+        dashUntil = Time.time + .18f;
         rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
     }
 
     void RotateToMouse()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(InputReader.Look), out hit, 1000))
-        {
-        }
+        if (Camera.main == null || !Physics.Raycast(Camera.main.ScreenPointToRay(InputReader.Look), out hit, 1000)) return;
         Vector3 direction = (hit.point - transform.position).normalized;
         direction.y = 0f;
 
-        transform.forward = direction;
+        if (direction.sqrMagnitude > 0.001f) transform.forward = direction;
 
     }
 

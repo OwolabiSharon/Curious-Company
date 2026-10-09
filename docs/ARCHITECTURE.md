@@ -2,7 +2,13 @@
 
 How the custom gameplay code in `Assets/scripts/` fits together. Based on reading the scripts, input definitions, animator controllers, scenes, prefabs, package manifest, and project settings (last reviewed 9 October 2026). Runtime behavior and Inspector references should be verified in Unity.
 
-## Scenes and build order
+## Campaign expansion (9 October 2026)
+
+The project now includes ten campaign scenes appended after the three prototype scenes. Scene 1's custom PlayCampaign handler routes into Campaign_01 when it is in Build Settings. The campaign owns its briefing, difficulty, seeded population, HUD, and next-mission flow. See [CAMPAIGN.md](CAMPAIGN.md) for the active expansion architecture.
+
+The script descriptions below document the original prototype baseline. They predate the campaign changes to shared gameplay: guarded terminal states, one-time extraction, gated AI/damage/dash, finite sound investigation, fixed view-angle use, safe camera initialization, subscription cleanup, Rigidbody movement, and swept projectile hits. Do not use those earlier bug descriptions as the current behavior contract.
+
+## Original scenes and build order
 
 | Build index | Scene | Startup behavior from code |
 | --- | --- | --- |

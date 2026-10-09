@@ -17,6 +17,12 @@ public class UIManager : MonoBehaviour
 
     public void PlayCampaign()
     {
+        if (UnityEngine.Application.CanStreamedLevelBeLoaded(CampaignSession.SceneName(0)))
+        {
+            CampaignSession.NewRun();
+            UnityEngine.SceneManagement.SceneManager.LoadScene(CampaignSession.SceneName(0));
+            return;
+        }
         exitMenu.SetActive(false);
         if (extrasMenu) extrasMenu.SetActive(false);
         playMenu.SetActive(false);

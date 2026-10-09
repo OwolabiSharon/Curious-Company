@@ -100,3 +100,7 @@ This project includes assets from the Unity Asset Store and other creators, each
 - Mixamo characters and animations
 
 Check each asset's license before redistributing this project.
+
+## Campaign expansion
+
+The Play button now opens a ten-mission rescue campaign with five hospital and five office missions, difficulty selection, randomized deployments, and original Blender furniture. See [CAMPAIGN.md](docs/CAMPAIGN.md) for controls, editing, regeneration, and scope, and [CAMPAIGN_VALIDATION.md](docs/CAMPAIGN_VALIDATION.md) for validation limits.

@@ -30,6 +30,8 @@ public class EnemyController : MonoBehaviour
     public bool isDead = false;
     CapsuleCollider cc;
     bool heardShot;
+    Vector3 lastHeardPosition;
+    float heardUntil;
 
     void Awake()
     {
@@ -71,18 +73,25 @@ public class EnemyController : MonoBehaviour
 
     void OnPlayerShot(Vector3 shotPosition)
     {
-        Debug.Log(isDead);
-        Debug.Log(Vector3.Distance(transform.position, shotPosition));
+        if (gm == null || !gm.isPlaying || !nma.isOnNavMesh || (isCaged && !gm.isFree)) return;
         if (isDead || Vector3.Distance(transform.position, shotPosition) > shotHearingRange) return;
 
         heardShot = true;
+        lastHeardPosition = shotPosition;
+        heardUntil = Time.time + 6f;
         nma.SetDestination(shotPosition);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDead) return;
+        if (isDead || gm == null || !nma.isOnNavMesh) return;
+        if (!gm.isPlaying)
+        {
+            nma.isStopped = true;
+            anim.SetBool("isMoving", false);
+            return;
+        }
         if (health < 1f)
         {
             anim.Play("Death");
@@ -109,9 +118,11 @@ public class EnemyController : MonoBehaviour
         {
             nma.isStopped = false;
         }
+        closestWR = null;
+        if (Time.time > heardUntil) heardShot = false;
         for (int i = 0; i < objects.Length; i++)
         {
-            if (objects[i] == null)
+            if (objects[i] == null || !objects[i].CompareTag("Good"))
                 continue;
 
             float distance = Vector3.Distance(objects[i].transform.position, transform.position);
@@ -124,7 +135,7 @@ public class EnemyController : MonoBehaviour
 
             }
         }
-        if (isShot || heardShot || (CanSeeTarget(Player.transform) && Vector3.Distance(Player.transform.position, transform.position) < playerRange))
+        if (isShot || (CanSeeTarget(Player.transform) && Vector3.Distance(Player.transform.position, transform.position) < playerRange))
 
         {
             healthUI.SetActive(true);
@@ -133,7 +144,12 @@ public class EnemyController : MonoBehaviour
             // audioSource.PlayOneShot(growl);
             return;
         }
-        if (closestWR == null) return;
+        if (closestWR == null)
+        {
+            if (heardShot) nma.SetDestination(lastHeardPosition);
+            else nma.ResetPath();
+            return;
+        }
 
 
         nma.destination = closestWR.transform.position;
@@ -142,20 +158,26 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isDead) return;
-        if (other.CompareTag("Bullet"))
-        {
-            health -= 1f;
-            isShot = true;
-            anim.Play("React");
-            ParticleSystem blood = Instantiate(part, other.transform.position, part.transform.rotation);
-            blood.Play();
-            healthBar.fillAmount = health / maxHealth;
-        }
-        else if (other.CompareTag("Good"))
+        if (isDead || gm == null || !gm.isPlaying) return;
+        if (other.CompareTag("Good"))
         {
             anim.Play("Attack");
         }
+    }
+
+    public void ReceiveBullet(Vector3 hitPosition)
+    {
+        if (isDead || health < 1 || gm == null || !gm.isPlaying) return;
+        health -= 1f;
+        isShot = true;
+        anim.Play("React");
+        if (part)
+        {
+            ParticleSystem blood = Instantiate(part, hitPosition, part.transform.rotation);
+            blood.Play();
+            Destroy(blood.gameObject, 4);
+        }
+        if (healthBar) healthBar.fillAmount = health / maxHealth;
     }
 
     public bool CanSeeTarget(Transform target)
@@ -173,7 +195,7 @@ public class EnemyController : MonoBehaviour
         Vector3 dirToTarget = (target.position - transform.position).normalized;
         float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
         // 3. Check if the angle falls within half of our total field of view cone
-        if (angleToTarget < 45)
+        if (angleToTarget < viewAngle * 0.5f)
         {
             // 4. Fire a raycast to see if a wall blocks the view
             if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, layer))
