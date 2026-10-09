@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (gm.isPlaying)
         {
             isPlaying = true;
@@ -52,7 +53,7 @@ public class CameraController : MonoBehaviour
             bool positionReached =
                 Vector3.Distance(transform.position, targetPosition) < 0.01f;
 
-            if (positionReached)
+            if (positionReached && rotationReached)
             {
                 transform.rotation = targetRotation;
                 transform.position = targetPosition;

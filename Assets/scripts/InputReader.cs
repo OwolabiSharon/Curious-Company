@@ -94,6 +94,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     public void OnPrevious(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        if (CampaignDirector.Instance != null)
+        {
+            CampaignDirector.Instance.Restart();
+            return;
+        }
         int nextScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadSceneAsync(nextScene);
     }
@@ -101,6 +106,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     public void OnNext(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        if (CampaignDirector.Instance != null)
+        {
+            CampaignDirector.Instance.Next();
+            return;
+        }
         if (SceneManager.GetActiveScene().buildIndex >= 1) return;
 
         int nextScene = SceneManager.GetActiveScene().buildIndex + 1;

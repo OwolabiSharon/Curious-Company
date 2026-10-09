@@ -27,15 +27,15 @@ public class TakeDamage : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (health < 1) return;
+        if (health < 1 || GameManager.Instance == null || !GameManager.Instance.isPlaying) return;
         if (other.CompareTag("Enemy") && canTakeDamage)
         {
-            health -= 1;
+            health -= CampaignDirector.Instance != null ? CampaignSession.IncomingDamage : 1f;
             canTakeDamage = false;
             Invoke("SetBool", iFrameDur);
-            rb.AddForce(other.transform.forward * attackKnockBack, ForceMode.Impulse);
+            if (rb != null && !rb.isKinematic) rb.AddForce(other.transform.forward * attackKnockBack, ForceMode.Impulse);
             anim.Play("React");
-            hp.fillAmount = health / maxHealth;
+            if (hp) hp.fillAmount = health / maxHealth;
         }
     }
 

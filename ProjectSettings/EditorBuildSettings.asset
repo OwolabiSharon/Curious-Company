@@ -14,6 +14,36 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_01.unity
+    guid: bfa7c764a124e4a6b8cd10f2d1910cb9
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_02.unity
+    guid: d071a5ff010a54dd8af09f4185cbbafd
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_03.unity
+    guid: 11cd7d5dfed744320a54b5e7a2cd23a8
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_04.unity
+    guid: c94e85a03a89a4a55a8c2504d75cd354
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_05.unity
+    guid: edb24732a15a843038e4965535521a42
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_06.unity
+    guid: 67611a6eb9799477aaa8a530cf17e1f2
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_07.unity
+    guid: 13d4ec6a2594b4b6bae7e5dde0911a8e
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_08.unity
+    guid: 8da1bda4fb91a4d51a4b8e7d3525af1e
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_09.unity
+    guid: 487b10912557e476b9e77ff1078d979a
+  - enabled: 1
+    path: Assets/Scenes/Campaign/Campaign_10.unity
+    guid: 8a015d31a471940be89c06aad8c3bf79
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject LevelWonUI;
     float deltaTime;
+    public bool HasEnded { get; private set; }
+    public bool HasWon { get; private set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -36,14 +38,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Screen.SetResolution(1280, 720, false);
+        // Respect the player's display settings.
     }
 
     // Update is called once per frame
     void Update()
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
-        if (rescued >= totalRescues)
+        if (isPlaying && !HasEnded && totalRescues > 0 && rescued >= totalRescues)
         {
             LevelWon();
         }
@@ -51,14 +53,19 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (HasEnded) return;
+        HasEnded = true;
         isPlaying = false;
-        gameOverUI.SetActive(true);
+        if (gameOverUI) gameOverUI.SetActive(true);
     }
 
     public void LevelWon()
     {
+        if (HasEnded) return;
+        HasEnded = true;
+        HasWon = true;
         isPlaying = false;
-        LevelWonUI.SetActive(true);
+        if (LevelWonUI) LevelWonUI.SetActive(true);
     }
 
 
@@ -73,6 +80,7 @@ public class GameManager : MonoBehaviour
     }
     void OnGUI()
     {
+        if (CampaignDirector.Instance != null) return;
         float fps = 1.0f / deltaTime;
 
         GUI.Label(
