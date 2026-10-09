@@ -1,0 +1,327 @@
+fileFormatVersion: 2
+guid: ac1a935ce32384d1a94391f962408b4d
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Backrooms_Metal_Vol2
+    second: {fileID: 2100000, guid: 7e29ad2350a1d4a18a3a63d5388883cc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Backrooms_Vol2
+    second: {fileID: 2100000, guid: da8a20eb1e5f14b7ea29aaa4f57a5240, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clip_Lamp
+    second: {fileID: 2100000, guid: 8cbfdd11ae45f4aada089e376930af17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lamp_Floor_A
+    second: {fileID: 2100000, guid: 1064b1c30f7f5405dac94243006ca2bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Radio_A
+    second: {fileID: 2100000, guid: f009cbf984d674bd4adbafb9855c1cd3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speaker_A
+    second: {fileID: 2100000, guid: f369e1e833be34de49f5983e203ab733, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TV_A.001
+    second: {fileID: 2100000, guid: a745c24e89476430bb38e2a8134ae36c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_exit_door_1001
+    second: {fileID: 2100000, guid: d906fc7010c6d4a928e93e54d507bf31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_exit_door_1001.001
+    second: {fileID: 2100000, guid: 7493dab5b06404b5ca4a2dbdb2a52e7e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Table_LivingRoom_A
+    second: {fileID: 2100000, guid: f2210a42d2fdd4405a55e405da9074cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Toilet
+    second: {fileID: 2100000, guid: e75a09e61b84246d89514595e659771a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dirty tiles
+    second: {fileID: 2100000, guid: 4cdd3d478731d4ffeac3105248f013e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: e886b0e07f2034adfb1d11f835bc2a95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: linoleum
+    second: {fileID: 2100000, guid: 01925cee46c724c52aea7afc8715d947, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: new floor
+    second: {fileID: 2100000, guid: 667b2c3bc0271408bb51cd7dbaf43c93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tiles
+    second: {fileID: 2100000, guid: 71e0433fd8fbe4a549d080201d0b9e13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood floor
+    second: {fileID: 2100000, guid: 1bc05e9e1844c4140aead388c99d6104, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood wall
+    second: {fileID: 2100000, guid: 761f09696e2fa47008af7b107b7217f6, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Toilet_Metallic
+    second: {fileID: 2800000, guid: 35f04bf220a9d43b1b876c3138f11a36, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Toilet_Roughness
+    second: {fileID: 2800000, guid: d7852cd710ff5437f8da0e1c93374640, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: base-white-tile_albedo
+    second: {fileID: 2800000, guid: 8e2a85b5b0f5b4cd993c7ebb72eae092, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: base-white-tile_metallic
+    second: {fileID: 2800000, guid: f1ec31e3e9cfd4a5b87bf734fb85846e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: base-white-tile_normal-ogl
+    second: {fileID: 2800000, guid: eb7e981cbd7614a048d128f39eae4783, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: base-white-tile_roughness
+    second: {fileID: 2800000, guid: c7b33768ba3ab44128fcfc708da134a5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bathroomtile1_basecolor
+    second: {fileID: 2800000, guid: e8e302d4b3d3c43728d677acd9e226b8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bathroomtile1_metalness
+    second: {fileID: 2800000, guid: eb150f3193c8b4f3c8e3c8f52e6cd86f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bathroomtile1_normal-ogl
+    second: {fileID: 2800000, guid: cdb926e7437a64a818940dd2886bb513, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bathroomtile1_roughness
+    second: {fileID: 2800000, guid: c3595cdf55ea84a4c891da4481746819, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cheap_old_linoleum1_Metallic
+    second: {fileID: 2800000, guid: 1d24c52245d59431f9eb50a04649f30e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cheap_old_linoleum1_Normal-ogl
+    second: {fileID: 2800000, guid: d47a2a9bd44224591a2fdb131bfebc2a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cheap_old_linoleum1_Roughness
+    second: {fileID: 2800000, guid: 0d7545f59f3d64a7685adb883d7ddc81, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cheap_old_linoleum1_albedo
+    second: {fileID: 2800000, guid: 594b7864ecdd34d7e83345cc35665e47, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: gross-dirty-tiles_albedo
+    second: {fileID: 2800000, guid: 28379b701080e4438a26092c377db80d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: gross-dirty-tiles_metallic
+    second: {fileID: 2800000, guid: 00994667735444177a310711e07c484f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: gross-dirty-tiles_normal-ogl
+    second: {fileID: 2800000, guid: 9ec699fd7ca514ef18a133776f656932, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: gross-dirty-tiles_roughness
+    second: {fileID: 2800000, guid: 986b875c770474e75a494bff4a3595c2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: laminate-flooring-brown_albedo
+    second: {fileID: 2800000, guid: 8d4b2194e46fe491ba8dc5f3ba4cfe10, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: laminate-flooring-brown_metallic
+    second: {fileID: 2800000, guid: 1806e7416eeb044f6bf8d2ab975e4ff7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: laminate-flooring-brown_normal-ogl
+    second: {fileID: 2800000, guid: 0ff0ecc5d0c8f4931ab24731b4f5c444, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: laminate-flooring-brown_roughness
+    second: {fileID: 2800000, guid: 92e7d425eae0e4be9a354321ef17a9cb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: saloon-wood-floor_albedo
+    second: {fileID: 2800000, guid: d962f2aabe9194d6e814eab66b4723b2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: saloon-wood-floor_metallic
+    second: {fileID: 2800000, guid: d5bc2f18f738e4ad7b40dc4160e872ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: saloon-wood-floor_normal-ogl
+    second: {fileID: 2800000, guid: f2faa5f40945642e384a072c87efe6f2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: saloon-wood-floor_roughness
+    second: {fileID: 2800000, guid: 202f77847a9844e75a67099a905b5633, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
