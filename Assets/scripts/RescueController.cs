@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,17 +6,25 @@ public class RescueController : MonoBehaviour
 {
     GameObject player;
     Vector3 destination;
+    static readonly List<RescueController> formation = new List<RescueController>();
+    AgentMotion motion;
+    Rigidbody playerBody;
+    Vector3 followHeading = Vector3.forward;
+    int formationSlot = -1;
+    float nextFollow;
+    [Min(1f)] public float movementAcceleration = 10f;
+    [Min(.02f)] public float turnSmoothTime = .10f;
+    [Min(90f)] public float turnSpeed = 600f;
+    public float referenceRunSpeed = 4.2f;
     NavMeshAgent nma;
     public bool isFollowing = true;
     public Transform[] hidingSpots;
     public Transform zombieGate;
-    int sidewaysDirection;
     public int minRange = 10;
     public int maxRange = 15;
     public int tagDistance = 1;
     public int maxSpooks = 1;
     int spooks = 0;
-    int backwardDistance;
     bool isParasite = false;
 
     public float turnRange;
@@ -38,17 +47,20 @@ public class RescueController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
         healthUI.SetActive(isFollowing);
-        RandomVals();
+        motion = new AgentMotion(nma, anim, rb, movementAcceleration);
+        playerBody = player.GetComponent<Rigidbody>();
+        followHeading = player.transform.forward;
+        if (isFollowing) Recruit();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (isDead || IsRescued) return;
-        if (nma.isOnNavMesh) nma.isStopped = !gm.isPlaying;
         if (!gm.isPlaying)
         {
-            anim.SetBool("isMoving", false);
+            motion.Stop();
+            motion.Tick(turnSmoothTime, turnSpeed, referenceRunSpeed);
             return;
         }
         if (damage.health < 1)
@@ -56,29 +68,21 @@ public class RescueController : MonoBehaviour
             healthUI.SetActive(false);
             isDead = true;
             if (nma.isOnNavMesh) nma.isStopped = true;
-            anim.Play("Death");
+            anim.CrossFadeInFixedTime("Death", .12f);
+            ReleaseSlot();
             gm.GameOver();
             cc.enabled = false;
             Destroy(rb);
             return;
         }
 
-        if (nma.velocity.magnitude > 0f)
-        {
-            anim.SetBool("isMoving", true);
-        }
-        else
-        {
-            anim.SetBool("isMoving", false);
-        }
-
+        if (!nma.isOnNavMesh) return;
+        motion.Tick(turnSmoothTime, turnSpeed, referenceRunSpeed);
         if (!isFollowing)
         {
             if (Vector3.Distance(player.transform.position, transform.position) < tagDistance)
             {
-                isFollowing = true;
-                anim.SetBool("isFollowing", true);
-                healthUI.SetActive(true);
+                Recruit();
             }
             else
             {
@@ -93,7 +97,15 @@ public class RescueController : MonoBehaviour
         //     return;
         // }
 
-        Follow();
+        var state = anim.GetCurrentAnimatorStateInfo(0);
+        bool reacting = state.IsName("React") && !anim.IsInTransition(0);
+        if (anim.IsInTransition(0) && anim.GetNextAnimatorStateInfo(0).IsName("React")) reacting = true;
+        if (reacting) motion.Stop();
+        else
+        {
+            motion.Resume();
+            Follow();
+        }
 
     }
 
@@ -102,6 +114,7 @@ public class RescueController : MonoBehaviour
         if (other.CompareTag("Safe") && gm.isPlaying && !IsRescued && !isDead && isFollowing)
         {
             IsRescued = true;
+            ReleaseSlot();
             isFollowing = false;
             if (nma.isOnNavMesh) nma.ResetPath();
             anim.SetBool("isMoving", false);
@@ -115,28 +128,66 @@ public class RescueController : MonoBehaviour
         }
     }
 
-    void Follow()
+    void Recruit()
     {
-        if (Vector3.Distance(player.transform.position, transform.position) < maxRange) return;
-        destination = player.transform.position - (player.transform.forward * backwardDistance) + (player.transform.right * sidewaysDirection * backwardDistance);
-        // Vector3 destination = new Vector3(player.transform.x - "a little to the side", 0, player.transform.z - "how far back");
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(destination, out hit, 2f, NavMesh.AllAreas))
+        isFollowing = true;
+        anim.SetBool("isFollowing", true);
+        healthUI.SetActive(true);
+        if (formationSlot >= 0) return;
+        formationSlot = formation.FindIndex(member => member == null);
+        if (formationSlot < 0)
         {
-
-            nma.SetDestination(hit.position);
+            formationSlot = formation.Count;
+            formation.Add(this);
         }
+        else formation[formationSlot] = this;
+        gm.totalFollowing++;
+        nextFollow = 0;
     }
 
-    void RandomVals()
+    void ReleaseSlot()
     {
-        sidewaysDirection = Random.Range(-1, 2);
-        backwardDistance = Random.Range(minRange, maxRange);
+        if (formationSlot < 0) return;
+        if (formationSlot < formation.Count && formation[formationSlot] == this) formation[formationSlot] = null;
+        formationSlot = -1;
+        if (gm) gm.totalFollowing = Mathf.Max(0, gm.totalFollowing - 1);
+    }
+
+    void OnDisable()
+    {
+        ReleaseSlot();
+    }
+
+    void Follow()
+    {
+        if (formationSlot < 0) Recruit();
+        Vector3 velocity = playerBody ? playerBody.linearVelocity : Vector3.zero;
+        velocity.y = 0;
+        // Mouse aiming does not rotate the escort formation. Remember the last walking direction at rest.
+        if (velocity.sqrMagnitude > .16f)
+        {
+            float current = Mathf.Atan2(followHeading.x, followHeading.z) * Mathf.Rad2Deg;
+            float target = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
+            float yaw = Mathf.LerpAngle(current, target, 1f - Mathf.Exp(-5f * Time.deltaTime));
+            followHeading = Quaternion.Euler(0, yaw, 0) * Vector3.forward;
+        }
+        if (Time.time < nextFollow) return;
+        nextFollow = Time.time + .20f;
+        int row = formationSlot / 2;
+        float side = formationSlot % 2 == 0 ? -.65f : .65f;
+        Vector3 right = Vector3.Cross(Vector3.up, followHeading);
+        destination = player.transform.position - followHeading * (Mathf.Max(1f, minRange) + row * .75f) + right * side;
+        if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 1.2f, nma.areaMask) && motion.CanReach(hit.position))
+            motion.SetDestination(hit.position);
+        // At narrow doors, follow the player's reachable route instead of insisting on a blocked formation slot.
+        else if (NavMesh.SamplePosition(player.transform.position, out hit, 2f, nma.areaMask) && motion.CanReach(hit.position))
+            motion.SetDestination(hit.position);
     }
 
     void Spooked()
     {
         isFollowing = false;
+        ReleaseSlot();
         healthUI.SetActive(false);
         anim.SetBool("isFollowing", false);
         anim.Play("Running Away");

@@ -29,6 +29,16 @@ public class EnemyController : MonoBehaviour
     public LayerMask layer;
     public bool isDead = false;
     CapsuleCollider cc;
+    [Min(1f)] public float movementAcceleration = 7f;
+    [Min(.02f)] public float turnSmoothTime = .12f;
+    [Min(90f)] public float turnSpeed = 540f;
+    [Min(.05f)] public float perceptionInterval = .12f;
+    public float referenceRunSpeed = 3.2f;
+    AgentMotion motion;
+    float nextPerception;
+    float lastSeenUntil;
+    Vector3 lastSeenPosition;
+    bool hasGoal;
     bool heardShot;
     Vector3 lastHeardPosition;
     float heardUntil;
@@ -57,6 +67,8 @@ public class EnemyController : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         audioSource = GetComponent<AudioSource>();
         cc = GetComponent<CapsuleCollider>();
+        motion = new AgentMotion(nma, anim, GetComponent<Rigidbody>(), movementAcceleration);
+        nextPerception = Time.time + (Mathf.Repeat(transform.position.x * .17f + transform.position.z * .13f, 1f) * perceptionInterval);
     }
 
     private void OnDrawGizmosSelected()
@@ -79,81 +91,100 @@ public class EnemyController : MonoBehaviour
         heardShot = true;
         lastHeardPosition = shotPosition;
         heardUntil = Time.time + 6f;
-        nma.SetDestination(shotPosition);
+        nextPerception = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (isDead || gm == null || !nma.isOnNavMesh) return;
+        if (isDead || gm == null || motion == null) return;
         if (!gm.isPlaying)
         {
-            nma.isStopped = true;
-            anim.SetBool("isMoving", false);
+            motion.Stop();
+            motion.Tick(turnSmoothTime, turnSpeed, referenceRunSpeed);
             return;
         }
         if (health < 1f)
         {
-            anim.Play("Death");
+            anim.CrossFadeInFixedTime("Death", .12f);
             isDead = true;
-            nma.isStopped = true;
+            motion.Stop(true);
             cc.enabled = false;
             Destroy(gameObject, 2);
             return;
         }
-        if (isCaged && !gm.isFree) return;
-        if (nma.hasPath && !nma.pathPending && nma.remainingDistance > nma.stoppingDistance)
+        if (isCaged && !gm.isFree)
         {
-            anim.SetBool("isMoving", true);
+            motion.Stop();
+            motion.Tick(turnSmoothTime, turnSpeed, referenceRunSpeed);
+            return;
         }
+        if (!nma.isOnNavMesh) return;
+        AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
+        bool reacting = !anim.IsInTransition(0) && (state.IsTag("Emote") || state.IsName("Attack"));
+        if (anim.IsInTransition(0))
+        {
+            var next = anim.GetNextAnimatorStateInfo(0);
+            reacting = next.IsTag("Emote") || next.IsName("Attack");
+        }
+        if (reacting) motion.Stop();
         else
         {
-            anim.SetBool("isMoving", false);
-        }
-        if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Emote") && !anim.IsInTransition(0))
-        {
-            nma.isStopped = true;
-        }
-        else
-        {
-            nma.isStopped = false;
-        }
-        closestWR = null;
-        if (Time.time > heardUntil) heardShot = false;
-        for (int i = 0; i < objects.Length; i++)
-        {
-            if (objects[i] == null || !objects[i].CompareTag("Good"))
-                continue;
-
-            float distance = Vector3.Distance(objects[i].transform.position, transform.position);
-            if (CanSeeTarget(objects[i].transform))
+            if (Time.time >= nextPerception)
             {
-                if (closestWR == null || distance < Vector3.Distance(closestWR.transform.position, transform.position))
-                {
-                    closestWR = objects[i];
-                }
+                nextPerception = Time.time + perceptionInterval;
+                UpdateTarget();
+            }
+            if (hasGoal) motion.Resume();
+        }
+        motion.Tick(turnSmoothTime, turnSpeed, referenceRunSpeed);
+    }
 
+    void UpdateTarget()
+    {
+        GameObject best = null;
+        float bestDistance = float.PositiveInfinity;
+        foreach (GameObject candidate in objects)
+        {
+            if (!candidate || !candidate.CompareTag("Good") || !CanSeeTarget(candidate.transform)) continue;
+            float distance = (candidate.transform.position - transform.position).sqrMagnitude;
+            if (distance < bestDistance)
+            {
+                best = candidate;
+                bestDistance = distance;
             }
         }
-        if (isShot || (CanSeeTarget(Player.transform) && Vector3.Distance(Player.transform.position, transform.position) < playerRange))
-
+        // Retain a visible target until a substantially closer one appears, avoiding left/right jitter in crowds.
+        if (closestWR && closestWR.CompareTag("Good") && CanSeeTarget(closestWR.transform)
+            && (closestWR.transform.position - transform.position).sqrMagnitude <= bestDistance * 1.4f)
+            best = closestWR;
+        if (Player && (isShot || (CanSeeTarget(Player.transform)
+            && Vector3.Distance(Player.transform.position, transform.position) < playerRange))) best = Player;
+        isShot = false;
+        closestWR = best;
+        if (best)
         {
+            lastSeenPosition = best.transform.position;
+            lastSeenUntil = Time.time + .8f;
+            hasGoal = true;
+            motion.SetDestination(lastSeenPosition);
             healthUI.SetActive(true);
-            nma.destination = Player.transform.position;
-            isShot = false;
-            // audioSource.PlayOneShot(growl);
-            return;
         }
-        if (closestWR == null)
+        else if (Time.time < lastSeenUntil)
         {
-            if (heardShot) nma.SetDestination(lastHeardPosition);
-            else nma.ResetPath();
-            return;
+            hasGoal = true;
+            motion.SetDestination(lastSeenPosition);
         }
-
-
-        nma.destination = closestWR.transform.position;
-        healthUI.SetActive(true);
+        else if (heardShot && Time.time < heardUntil)
+        {
+            hasGoal = true;
+            motion.SetDestination(lastHeardPosition);
+        }
+        else
+        {
+            heardShot = false;
+            hasGoal = false;
+            motion.Stop(true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -161,7 +192,9 @@ public class EnemyController : MonoBehaviour
         if (isDead || gm == null || !gm.isPlaying) return;
         if (other.CompareTag("Good"))
         {
-            anim.Play("Attack");
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+                && !(anim.IsInTransition(0) && anim.GetNextAnimatorStateInfo(0).IsName("Attack")))
+                anim.CrossFadeInFixedTime("Attack", .10f);
         }
     }
 
@@ -170,7 +203,8 @@ public class EnemyController : MonoBehaviour
         if (isDead || health < 1 || gm == null || !gm.isPlaying) return;
         health -= 1f;
         isShot = true;
-        anim.Play("React");
+        anim.CrossFadeInFixedTime("React", .08f);
+        nextPerception = 0;
         if (part)
         {
             ParticleSystem blood = Instantiate(part, hitPosition, part.transform.rotation);

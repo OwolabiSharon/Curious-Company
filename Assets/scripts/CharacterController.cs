@@ -11,6 +11,11 @@ public class CharacterController : MonoBehaviour
     public GameObject bullet;
     public Transform bulletSpawn;
     public float moveSpeed = 2f;
+    [Min(1f)] public float moveAcceleration = 24f;
+    [Min(1f)] public float moveBraking = 32f;
+    [Min(90f)] public float aimTurnSpeed = 900f;
+    [Min(.01f)] public float animationDamping = .12f;
+    Quaternion aimRotation;
     public float knockBack = 0.5f;
     public float dashForce = 10f;
     public TakeDamage damage;
@@ -28,6 +33,9 @@ public class CharacterController : MonoBehaviour
     {
         InputReader = GameObject.Find("GameManager").GetComponent<InputReader>();
         rb = GetComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.linearDamping = 0f;
+        aimRotation = rb.rotation;
         SubscribeInput();
         audioSource = GetComponent<AudioSource>();
         cc = GetComponent<CapsuleCollider>();
@@ -68,17 +76,17 @@ public class CharacterController : MonoBehaviour
 
     void Move()
     {
-        Vector2 move = InputReader.Move;
-        Vector3 moveDir = new Vector3(move.x, 0, move.y);
-        moveDir = Vector3.ClampMagnitude(moveDir, 1f);
+        Vector3 velocity = rb.linearVelocity;
+        velocity.y = 0;
+        Vector3 moveDir = Vector3.ClampMagnitude(velocity / Mathf.Max(.1f, moveSpeed), 1f);
         Vector3 localMove = transform.InverseTransformDirection(moveDir);
 
-        anim.SetFloat("hor", localMove.x);
-        anim.SetFloat("vert", localMove.z);
+        anim.SetFloat("hor", localMove.x, animationDamping, Time.deltaTime);
+        anim.SetFloat("vert", localMove.z, animationDamping, Time.deltaTime);
 
-        if (move.sqrMagnitude > 0.01f)
+        if (velocity.sqrMagnitude > .08f && Time.time >= dashUntil)
         {
-            if (!footstepAudioSource.isPlaying) footstepAudioSource.Play();
+            if (footstepAudioSource && !footstepAudioSource.isPlaying) footstepAudioSource.Play();
         }
         else
         {
@@ -88,10 +96,13 @@ public class CharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (rb == null || gm == null || !gm.isPlaying || isDead || Time.time < dashUntil) return;
+        if (rb == null || gm == null || !gm.isPlaying || isDead || damage.health < 1) return;
+        rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, aimRotation, aimTurnSpeed * Time.fixedDeltaTime));
+        if (Time.time < dashUntil) return;
         Vector2 input = Vector2.ClampMagnitude(InputReader.Move, 1f);
         Vector3 target = new Vector3(input.x * moveSpeed, rb.linearVelocity.y, input.y * moveSpeed);
-        rb.linearVelocity = Vector3.MoveTowards(rb.linearVelocity, target, 35f * Time.fixedDeltaTime);
+        float acceleration = input.sqrMagnitude > .001f ? moveAcceleration : moveBraking;
+        rb.linearVelocity = Vector3.MoveTowards(rb.linearVelocity, target, acceleration * Time.fixedDeltaTime);
     }
 
     void StopFootsteps()
@@ -127,14 +138,15 @@ public class CharacterController : MonoBehaviour
     void Shoot()
     {
         if (!gm.isPlaying) return;
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Shooting") || damage.health < 1)
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Shooting")
+            || (anim.IsInTransition(0) && anim.GetNextAnimatorStateInfo(0).IsName("Shooting")) || damage.health < 1)
         {
             return;
         }
         Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
         ShotFired?.Invoke(transform.position);
         rb.AddForce(-transform.forward * knockBack, ForceMode.Impulse);
-        anim.Play("Shooting");
+        anim.CrossFadeInFixedTime("Shooting", .06f);
         audioSource.PlayOneShot(shot);
         part.Play();
     }
@@ -152,14 +164,13 @@ public class CharacterController : MonoBehaviour
 
     void RotateToMouse()
     {
-        RaycastHit hit;
-        if (Camera.main == null || !Physics.Raycast(Camera.main.ScreenPointToRay(InputReader.Look), out hit, 1000)) return;
-        Vector3 direction = (hit.point - transform.position).normalized;
-        direction.y = 0f;
-
-        if (direction.sqrMagnitude > 0.001f) transform.forward = direction;
-
+        if (Camera.main == null) return;
+        // A stable horizontal aim plane avoids snapping when the pointer crosses tall props or actors.
+        Plane plane = new Plane(Vector3.up, rb.position);
+        Ray ray = Camera.main.ScreenPointToRay(InputReader.Look);
+        if (!plane.Raycast(ray, out float distance)) return;
+        Vector3 direction = ray.GetPoint(distance) - rb.position;
+        direction.y = 0;
+        if (direction.sqrMagnitude > .04f) aimRotation = Quaternion.LookRotation(direction);
     }
-
-
 }

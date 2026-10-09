@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     public int index = 0;
     public float panSpeed = 5f;
     public float followSpeed = 5f;
+    [Min(.01f)] public float followSmoothTime = .14f;
+    Vector3 followVelocity;
     public float rotationSpeed = 60f; // Degrees per second
     public bool isPlaying = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,8 +24,6 @@ public class CameraController : MonoBehaviour
         {
             isPlaying = true;
         }
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-
     }
 
     // Update is called once per frame
@@ -92,14 +92,7 @@ public class CameraController : MonoBehaviour
 
     void Follow()
     {
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            player.position + offset,
-            followSpeed * Time.deltaTime
-
-        );
-
-
-        // transform.position = player.position + offset;
+        transform.position = Vector3.SmoothDamp(transform.position, player.position + offset,
+            ref followVelocity, followSmoothTime, Mathf.Max(1f, followSpeed) * 4f, Time.deltaTime);
     }
 }
