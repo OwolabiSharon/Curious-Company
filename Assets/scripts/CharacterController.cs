@@ -6,7 +6,7 @@ public class CharacterController : MonoBehaviour
 {
     public static event System.Action<Vector3> ShotFired;
 
-    public InputReader InputReader;
+    [SerializeField] public InputReader InputReader;
     Rigidbody rb;
     public GameObject bullet;
     public Transform bulletSpawn;
@@ -112,6 +112,7 @@ public class CharacterController : MonoBehaviour
 
     void Dash()
     {
+        if (isDead) return;
         rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
     }
 

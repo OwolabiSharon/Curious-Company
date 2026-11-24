@@ -1,0 +1,317 @@
+fileFormatVersion: 2
+guid: 25671bcac45424270a23307cf3fd389a
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Ballons
+    second: {fileID: 2100000, guid: ed4018c5bbfab4cb59c2414e4a92e8d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_ChairShelfs
+    second: {fileID: 2100000, guid: d84ad2c7fe844460aaa26e85562e5bda, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cigarette
+    second: {fileID: 2100000, guid: f01f76dab78894252a4c2d9ec7c294c1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_DripChair
+    second: {fileID: 2100000, guid: e535517a8bfd74947a64420a689ec9be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Locker
+    second: {fileID: 2100000, guid: 47514bf090fdc4217bfe2777470b3038, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_LockerMed
+    second: {fileID: 2100000, guid: fbaec697e3d4148e69b88eaa06fa6e1a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Mattress
+    second: {fileID: 2100000, guid: 58072ee7b111642fab238f97ded72342, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MedicineBox3
+    second: {fileID: 2100000, guid: 8ee6df17910b945f699189564323592f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PipesBig
+    second: {fileID: 2100000, guid: 73059799db78b4eb7aef75359ad2392a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PipesSmall
+    second: {fileID: 2100000, guid: 195b89c14d8ab4cfabf78dc90364814f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Shelfs
+    second: {fileID: 2100000, guid: 503ce312c95d6423a844b305ddeff339, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_TrashDoorDesk
+    second: {fileID: 2100000, guid: b9a5662ba01044096a7172d25d5132ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WallSmallv02
+    second: {fileID: 2100000, guid: 297ce34cd56f64412b4c712ba3d295cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_ouch
+    second: {fileID: 2100000, guid: 0487653e8b28b47d489a29869e927f4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PipesBig.001
+    second: {fileID: 2100000, guid: e2ac55043db164b6fa38c53af481188a, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Ballons_baseColor
+    second: {fileID: 2800000, guid: cd74edfadb4a543b5a9dfeab50a2c6f3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Ballons_normal
+    second: {fileID: 2800000, guid: 853904f952e8e4898b63708027146b8f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_ChairShelfs_baseColor
+    second: {fileID: 2800000, guid: af25e66e2ea614746937c38b95402031, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_ChairShelfs_normal
+    second: {fileID: 2800000, guid: 6b387e863edb44543bb8abc1da459095, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Cigarette_baseColor
+    second: {fileID: 2800000, guid: 9361b9fbadd94472ba1903757ee82a1e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Cigarette_normal
+    second: {fileID: 2800000, guid: 7216a62cca87f4ce1b592240e1a02301, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_DripChair_baseColor
+    second: {fileID: 2800000, guid: 49c33551e45f249489d7943781e9d3a6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_DripChair_normal
+    second: {fileID: 2800000, guid: a73dfd038f0f84cdf83583cd1a0ab50c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_LockerMed_baseColor
+    second: {fileID: 2800000, guid: 97f4856889b484bb5910c30f0bf85c1b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_LockerMed_normal
+    second: {fileID: 2800000, guid: e040e99da5a7d4cac887905c64b647fb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Locker_baseColor
+    second: {fileID: 2800000, guid: 4325c2770fe3542c99cfddfd933ae73d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Locker_normal
+    second: {fileID: 2800000, guid: af4f0eaff64ff41c883faba773bde2de, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Mattress_baseColor
+    second: {fileID: 2800000, guid: 567fab72daf794dc3b5afceeaa838c8c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Mattress_normal
+    second: {fileID: 2800000, guid: 95fdaf04c506548519b9bb94b13789f4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_MedicineBox3_baseColor
+    second: {fileID: 2800000, guid: e5671b5c451d54d8f993039f132e4d0d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_PipesBig_baseColor
+    second: {fileID: 2800000, guid: 6c9ba93eb7fc54364b945276ccb8ebc2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_PipesBig_normal
+    second: {fileID: 2800000, guid: 1ffcd7cd032044195944053e4942bd59, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_PipesSmall_baseColor
+    second: {fileID: 2800000, guid: d983f1c93c19645d1bdc1efaf367bb10, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_PipesSmall_normal
+    second: {fileID: 2800000, guid: 5cc5d4e78b1c845f38bdfa6fef6b490e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Shelfs_baseColor
+    second: {fileID: 2800000, guid: 9e0dd94d89f3b4910be49ed4321de64b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Shelfs_normal
+    second: {fileID: 2800000, guid: 8151301c097d243f0bf77ac1d1c54e94, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_TrashDoorDesk_baseColor
+    second: {fileID: 2800000, guid: 9979404e7659041b1a6cc4c6344c87e4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_TrashDoorDesk_normal
+    second: {fileID: 2800000, guid: edcecd96df4534022a0a3b3760e23f7d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_WallSmallv02_baseColor
+    second: {fileID: 2800000, guid: ffa4dfe561fb840c4947c27cf71f31f3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_WallSmallv02_normal
+    second: {fileID: 2800000, guid: a46fc4f45a5c44e2e8ff853f9982f199, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_ouch_baseColor
+    second: {fileID: 2800000, guid: 17c4e8b16775744c08b489b58c86e878, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_ouch_normal
+    second: {fileID: 2800000, guid: 3a56ca9c6f7df4f089838428ba578246, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 126
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1.26
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

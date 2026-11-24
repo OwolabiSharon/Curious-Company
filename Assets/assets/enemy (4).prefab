@@ -2028,9 +2028,11 @@ GameObject:
   - component: {fileID: 7199297248162234170}
   - component: {fileID: 2562716750691122626}
   - component: {fileID: 4320141440949747819}
-  - component: {fileID: 8700031046830819292}
   - component: {fileID: 5398472763319584836}
-  m_Layer: 0
+  - component: {fileID: 3181802845917781603}
+  - component: {fileID: 2016187514688810717}
+  - component: {fileID: 2997268775662670276}
+  m_Layer: 7
   m_Name: enemy (4)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2100,8 +2102,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
@@ -2127,40 +2129,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8700031046830819292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6527344869351999197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad0a83f198c642a1a0df9e1133cb983, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objects: []
-  closestWR: {fileID: 0}
-  Player: {fileID: 0}
-  objectsWithinRange: []
-  range: 10
-  viewAngle: 90
-  playerRange: 5
-  shotHearingRange: 10
-  health: 5
-  maxHealth: 5
-  isShot: 0
-  anim: {fileID: 4303570952669505362}
-  isCaged: 0
-  gm: {fileID: 0}
-  part: {fileID: 3228671334844793261}
-  healthBar: {fileID: 2499546370034618472}
-  healthUI: {fileID: 527923519867499139}
-  growl: {fileID: 8300000, guid: f0b2bc064aae34f628e9f758b3194246, type: 3}
-  layer:
-    serializedVersion: 2
-    m_Bits: 64
-  isDead: 0
 --- !u!82 &5398472763319584836
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2258,6 +2226,59 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3181802845917781603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527344869351999197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad3259180e22b4cf4abc07db2a90dd4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  hitDamage: 1
+  anim: {fileID: 4303570952669505362}
+  bloodParticle: {fileID: 3228671334844793261}
+  healthBar: {fileID: 2499546370034618472}
+  healthUI: {fileID: 527923519867499139}
+--- !u!114 &2016187514688810717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527344869351999197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d1cb10269194baf840ecede99ffe34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewDistance: 10
+  viewAngle: 90
+  playerRange: 5
+  shotHearingRange: 10
+  wall:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &2997268775662670276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527344869351999197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af68bc508b8a446048ed50dfc9dade1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 4303570952669505362}
+  healthUI: {fileID: 527923519867499139}
+  isCaged: 0
+  attackDelay: 1
 --- !u!1 &6542981432196391265
 GameObject:
   m_ObjectHideFlags: 0

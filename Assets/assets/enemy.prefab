@@ -122,7 +122,9 @@ GameObject:
   - component: {fileID: 1234808796748957719}
   - component: {fileID: 5954992020843973114}
   - component: {fileID: 3203205295645558999}
-  - component: {fileID: 5531228744923033671}
+  - component: {fileID: 1800326895599801026}
+  - component: {fileID: 6936687761345473991}
+  - component: {fileID: 3751891808240335162}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Enemy
@@ -273,7 +275,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5531228744923033671
+--- !u!114 &1800326895599801026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,16 +284,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 4950170322477884331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad0a83f198c642a1a0df9e1133cb983, type: 3}
+  m_Script: {fileID: 11500000, guid: ad3259180e22b4cf4abc07db2a90dd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects: []
-  closestWR: {fileID: 0}
-  Player: {fileID: 0}
-  objectsWithinRange: []
-  range: 15
+  maxHealth: 5
+  hitDamage: 1
+  anim: {fileID: 0}
+  bloodParticle: {fileID: 0}
+  healthBar: {fileID: 0}
+  healthUI: {fileID: 0}
+--- !u!114 &6936687761345473991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4950170322477884331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d1cb10269194baf840ecede99ffe34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewDistance: 15
+  viewAngle: 90
   playerRange: 8
-  health: 5
+  shotHearingRange: 10
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &3751891808240335162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4950170322477884331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af68bc508b8a446048ed50dfc9dade1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  healthUI: {fileID: 0}
+  isCaged: 0
+  attackDelay: 1
 --- !u!1 &7778083771537316255
 GameObject:
   m_ObjectHideFlags: 0

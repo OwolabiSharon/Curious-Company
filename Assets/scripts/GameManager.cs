@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         isPlaying = false;
         LevelWonUI.SetActive(true);
+        if (GameSession.Level != null) GameSession.MarkCompleted(GameSession.Level);
     }
 
 

@@ -6,28 +6,22 @@ public class RescueController : MonoBehaviour
     GameObject player;
     Vector3 destination;
     NavMeshAgent nma;
-    public bool isFollowing = true;
-    public Transform[] hidingSpots;
-    public Transform zombieGate;
-    int sidewaysDirection;
-    public int minRange = 10;
-    public int maxRange = 15;
-    public int tagDistance = 1;
-    public int maxSpooks = 1;
-    int spooks = 0;
-    int backwardDistance;
-    bool isParasite = false;
+    private bool isFollowing = false;
+    private bool isSafe = false; // reached the safe zone; can't be tagged or counted again
+    private int sidewaysDirection;
+    [SerializeField] private int minRange = 10;
+    [SerializeField] private int maxRange = 15;
+    [SerializeField] public int tagDistance = 1;
+    [SerializeField] private GameObject healthUI;
+    [SerializeField] public bool isDead = false;
+    private int backwardDistance;
+    [SerializeField] private TakeDamage damage;
+    private GameManager gm;
+    [SerializeField] private Animator anim;
+    private CapsuleCollider cc;
+    private Rigidbody rb;
 
-    public float turnRange;
-    bool isWalkingToGate = false;
-    public TakeDamage damage;
-    public GameObject healthUI;
-    public GameManager gm;
-    public Animator anim;
-    public Transform gate;
-    CapsuleCollider cc;
-    Rigidbody rb;
-    public bool isDead = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,15 +39,9 @@ public class RescueController : MonoBehaviour
         if (isDead) return;
         if (damage.health < 1)
         {
-            healthUI.SetActive(false);
-            isDead = true;
-            anim.Play("Death");
-            gm.GameOver();
-            cc.enabled = false;
-            Destroy(rb);
+            Death();
             return;
         }
-
         if (nma.velocity.magnitude > 0f)
         {
             anim.SetBool("isMoving", true);
@@ -62,46 +50,52 @@ public class RescueController : MonoBehaviour
         {
             anim.SetBool("isMoving", false);
         }
-
+        if (isSafe) return;
         if (!isFollowing)
         {
-            if (Vector3.Distance(player.transform.position, transform.position) < tagDistance)
-            {
-                isFollowing = true;
-                anim.SetBool("isFollowing", true);
-                healthUI.SetActive(true);
-            }
-            else
-            {
-                return;
-            }
+            CheckTag();
+            return;
         }
-
-
-        // if (gm.infectedTurned && (spooks < maxSpooks))
-        // {
-        //     Spooked();
-        //     return;
-        // }
-
         Follow();
+    }
 
+    void CheckTag()
+    {
+        if (Vector3.Distance(player.transform.position, transform.position) < tagDistance)
+        {
+            isFollowing = true;
+            anim.SetBool("isFollowing", true);
+            healthUI.SetActive(true);
+        }
+    }
+
+    void Death()
+    {
+        healthUI.SetActive(false);
+        isDead = true;
+        anim.Play("Death");
+        gm.GameOver();
+        cc.enabled = false;
+        Destroy(rb);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Safe"))
+        if (other.CompareTag("Safe") && isFollowing && !isSafe)
         {
             gm.rescued += 1;
+            isFollowing = false;
+            isSafe = true;
+            anim.SetBool("isFollowing", false);
+            nma.ResetPath();
         }
     }
 
     void Follow()
     {
-        RandomVals();
-        if (Vector3.Distance(player.transform.position, transform.position) < maxRange) return;
+        RandomFollowVals();
+        if (Vector3.Distance(player.transform.position, transform.position) < maxRange) return; // so it moves only after the player as gone a certain distance from it (reusing the maxrange variable)
         destination = player.transform.position - (player.transform.forward * backwardDistance) + (player.transform.right * sidewaysDirection * backwardDistance);
-        // Vector3 destination = new Vector3(player.transform.x - "a little to the side", 0, player.transform.z - "how far back");
         NavMeshHit hit;
         if (NavMesh.SamplePosition(destination, out hit, 2f, NavMesh.AllAreas))
         {
@@ -110,37 +104,9 @@ public class RescueController : MonoBehaviour
         }
     }
 
-    void RandomVals()
+    void RandomFollowVals()
     {
-        sidewaysDirection = Random.Range(-1, 1);
+        sidewaysDirection = Random.Range(-1, 2); // 2 because max is excluded in the computation
         backwardDistance = Random.Range(minRange, maxRange);
-    }
-
-    void Spooked()
-    {
-        isFollowing = false;
-        healthUI.SetActive(false);
-        anim.SetBool("isFollowing", false);
-        anim.Play("Running Away");
-        spooks += 1;
-        int index = Random.Range(0, hidingSpots.Length);
-        nma.SetDestination(hidingSpots[index].position);
-    }
-
-    void Infected()
-    {
-        if (Vector3.Distance(zombieGate.position, transform.position) < turnRange && !gm.infectedTurned)
-        {
-            isWalkingToGate = true;
-            gm.infectedTurned = true;
-            nma.SetDestination(zombieGate.position);
-        }
-
-        if (Vector3.Distance(zombieGate.position, transform.position) < tagDistance && isWalkingToGate)
-        {
-            //gate open
-            gate.rotation = Quaternion.Euler(0f, 90f, 0f);
-            gm.isFree = true;
-        }
     }
 }

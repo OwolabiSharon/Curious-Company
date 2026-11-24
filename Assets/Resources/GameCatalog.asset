@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b76ec37001045938ae0598d1b1cce8, type: 3}
+  m_Name: GameCatalog
+  m_EditorClassIdentifier: 
+  locations:
+  - {fileID: 11400000, guid: f12682e119d3d4709bdbc250fd5c9499, type: 2}
+  - {fileID: 11400000, guid: 17913dd0ef7304c4b8827c7168320852, type: 2}
+  - {fileID: 11400000, guid: 1dd061a3e94364d78bfe13fc0833b8ba, type: 2}
+  unlockAllLevels: 1

@@ -20,7 +20,6 @@ public class Bullet : MonoBehaviour
         {
             if (hit.collider.CompareTag("wall"))
             {
-                Debug.Log("wall");
                 Destroy(gameObject);
             }
         }
